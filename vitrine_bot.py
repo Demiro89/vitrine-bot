@@ -2,13 +2,12 @@
 Bot Vitrine — YouTubePremiumDisneyBot
 Redirige automatiquement vers le bot principal @abonnementpro_bot
 """
-
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
-BOT_TOKEN    = "8755971087:AAGfh_4XDGNnU3lFmU3lprwpWReP4uLxQyc"
-MAIN_BOT     = "https://t.me/abonnementpro_bot"
+BOT_TOKEN = "8755971087:AAGfh_4XDGNnU3lFmU3lprwpWReP4uLxQyc"
+MAIN_BOT  = "https://t.me/abonnementpro_bot"
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -20,7 +19,6 @@ logger = logging.getLogger(__name__)
 # ─────────────────────────────────────────────
 # MESSAGE D'ACCUEIL
 # ─────────────────────────────────────────────
-
 WELCOME_MSG = """🎬 *YouTube Premium & Disney+ à prix réduit !*
 
 ✅ *Nos offres :*
@@ -35,9 +33,9 @@ WELCOME_MSG = """🎬 *YouTube Premium & Disney+ à prix réduit !*
 • Marvel, Star Wars, Pixar
 • National Geographic
 • Contenu exclusif
-• Dès *4.99 €/mois* _(officiel : 11.99€)_
+• Dès *4.99 €/mois* _(officiel : 15.99€)_
 
-💳 *Paiement* : PayPal · USDT · SOL · XRP
+💳 *Paiement* : CB (Sumeria) · PayPal · USDT · SOL · XRP
 🔄 *Résiliation* à tout moment
 ⚡ *Accès* rapide après paiement
 
@@ -47,8 +45,8 @@ WELCOME_MSG = """🎬 *YouTube Premium & Disney+ à prix réduit !*
 
 async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     kb = [
-        [InlineKeyboardButton("🚀 S'abonner maintenant",      url=MAIN_BOT)],
-        [InlineKeyboardButton("🤝 Gagner des commissions",    url=f"{MAIN_BOT}?start=affiliation")],
+        [InlineKeyboardButton("🚀 S'abonner maintenant",   url=MAIN_BOT)],
+        [InlineKeyboardButton("🤝 Gagner des commissions", url=f"{MAIN_BOT}?start=affiliation")],
     ]
     await update.message.reply_text(
         WELCOME_MSG,
@@ -60,8 +58,8 @@ async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 async def any_message(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     """Répond à n'importe quel message avec l'offre + bouton."""
     kb = [
-        [InlineKeyboardButton("🚀 S'abonner maintenant",      url=MAIN_BOT)],
-        [InlineKeyboardButton("🤝 Gagner des commissions",    url=f"{MAIN_BOT}?start=affiliation")],
+        [InlineKeyboardButton("🚀 S'abonner maintenant",   url=MAIN_BOT)],
+        [InlineKeyboardButton("🤝 Gagner des commissions", url=f"{MAIN_BOT}?start=affiliation")],
     ]
     await update.message.reply_text(
         WELCOME_MSG,
