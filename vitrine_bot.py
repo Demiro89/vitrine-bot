@@ -1,6 +1,6 @@
 """
-Bot Vitrine — YouTubePremiumDisneyBot
-Redirige automatiquement vers le bot principal @abonnementpro_bot
+Bot Vitrine — @YouTubePremiumDisneyBot
+Redirige vers le bot principal @abonnementpro_bot
 """
 import logging
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
@@ -16,62 +16,43 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# ─────────────────────────────────────────────
-# MESSAGE D'ACCUEIL
-# ─────────────────────────────────────────────
-WELCOME_MSG = """🎬 *YouTube Premium & Disney+ à prix réduit !*
+WELCOME_MSG = (
+    "🎬 *YouTube Premium & Disney+ à prix réduit !*\n\n"
+    "━━━━━━━━━━━━━━━━━━\n"
+    "▶️ *YouTube Premium* — dès *5.99€/mois*\n"
+    "   ~~Prix officiel : 13.99€~~ → *économisez 57%*\n"
+    "   ✅ Zéro pub · YouTube Music · Téléchargements\n\n"
+    "🏰 *Disney+* — dès *4.99€/mois*\n"
+    "   ~~Prix officiel : 15.99€~~ → *économisez 69%*\n"
+    "   ✅ 4K HDR · Marvel · Star Wars · Pixar\n"
+    "━━━━━━━━━━━━━━━━━━\n\n"
+    "💳 *Paiements :* CB · PayPal · Crypto\n"
+    "⚡ *Accès instantané* après validation\n"
+    "🔄 *Résiliation* à tout moment\n"
+    "💬 *Support* 7j/7 via Telegram\n\n"
+    "👇 *Cliquez pour accéder aux offres :*"
+)
 
-✅ *Nos offres :*
-
-▶️ *YouTube Premium*
-• Sans publicité
-• Téléchargements illimités
-• YouTube Music inclus
-• Dès *5.99 €/mois* _(officiel : 13.99€)_
-
-🏰 *Disney+*
-• Marvel, Star Wars, Pixar
-• National Geographic
-• Contenu exclusif
-• Dès *4.99 €/mois* _(officiel : 15.99€)_
-
-💳 *Paiement* : CB (Sumeria) · PayPal · USDT · SOL · XRP
-🔄 *Résiliation* à tout moment
-⚡ *Accès* rapide après paiement
-
-🤝 *Programme d'affiliation* : gagnez 15% de commission en parrainant vos amis !
-
-👇 *Cliquez ci-dessous :*"""
+def get_kb():
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton("🚀 Voir les offres & S'abonner", url=MAIN_BOT)],
+        [InlineKeyboardButton("▶️ YouTube Premium 5.99€/mois",  url=f"{MAIN_BOT}?start=yt")],
+        [InlineKeyboardButton("🏰 Disney+ 4.99€/mois",          url=f"{MAIN_BOT}?start=disney")],
+        [InlineKeyboardButton("💬 Support & Questions",          url=f"{MAIN_BOT}?start=support")],
+    ])
 
 async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    kb = [
-        [InlineKeyboardButton("🚀 S'abonner maintenant",   url=MAIN_BOT)],
-        [InlineKeyboardButton("🤝 Gagner des commissions", url=f"{MAIN_BOT}?start=affiliation")],
-    ]
-    await update.message.reply_text(
-        WELCOME_MSG,
-        parse_mode="Markdown",
-        reply_markup=InlineKeyboardMarkup(kb)
-    )
-    logger.info(f"Nouveau visiteur vitrine: {update.effective_user.id}")
+    await update.message.reply_text(WELCOME_MSG, parse_mode="Markdown", reply_markup=get_kb())
+    logger.info(f"Visiteur vitrine: {update.effective_user.id}")
 
 async def any_message(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
-    """Répond à n'importe quel message avec l'offre + bouton."""
-    kb = [
-        [InlineKeyboardButton("🚀 S'abonner maintenant",   url=MAIN_BOT)],
-        [InlineKeyboardButton("🤝 Gagner des commissions", url=f"{MAIN_BOT}?start=affiliation")],
-    ]
-    await update.message.reply_text(
-        WELCOME_MSG,
-        parse_mode="Markdown",
-        reply_markup=InlineKeyboardMarkup(kb)
-    )
+    await update.message.reply_text(WELCOME_MSG, parse_mode="Markdown", reply_markup=get_kb())
 
 def main():
     app = Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, any_message))
-    logger.info("✅ Bot vitrine YouTubePremiumDisneyBot démarré")
+    logger.info("✅ Bot vitrine démarré")
     app.run_polling(drop_pending_updates=True)
 
 if __name__ == "__main__":
